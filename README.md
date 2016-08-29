@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/deathman92/hibernate-schema-gradle-plugin.svg?branch=master)](https://travis-ci.org/deathman92/hibernate-schema-gradle-plugin)
+
 # hibernate-schema-gradle-plugin
 Gradle plugin for generate DDL scripts from JPA entities using Hibernate SchemaExport tool.
 

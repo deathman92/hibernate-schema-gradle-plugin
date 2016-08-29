@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-ext['project.version'] = '0.2-SNAPSHOT'
+ext['project.version'] = '0.3'
 ext['hibernate.version'] = '5.2.2.Final'
 ext['reflections.version'] = '0.9.10'
 ext['junit.version'] = '4.12'
