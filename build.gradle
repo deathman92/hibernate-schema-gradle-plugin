@@ -1,0 +1,102 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0")
+        classpath("net.saliman:gradle-properties-plugin:1.4.5")
+    }
+}
+
+ext['project.version'] = '0.2-SNAPSHOT'
+ext['hibernate.version'] = '5.2.2.Final'
+ext['reflections.version'] = '0.9.10'
+ext['junit.version'] = '4.12'
+ext['spock.version'] = '1.0-groovy-2.4'
+
+group 'io.github.deathman.plugin'
+version "${property('project.version')}"
+description "Gradle plugin for generate DDL scripts from JPA entities"
+
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'net.saliman.properties'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+ext {
+    isReleaseVersion = !project.version.endsWith("-SNAPSHOT")
+
+    artifactoryRepo = isReleaseVersion ? 'plugins-release-local' : 'plugins-snapshot-local'
+    artifactoryUrl = "${System.env['CI_ARTIFACTORY_URL'] ?: property('artifactory.url')}"
+    artifactoryUser = "${System.env['CI_ARTIFACTORY_USER'] ?: property('artifactory.user')}"
+    artifactoryPassword = "${System.env['CI_ARTIFACTORY_PASSWORD'] ?: property('artifactory.password')}"
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile("org.hibernate:hibernate-entitymanager:${property('hibernate.version')}")
+    compile("org.reflections:reflections:${property('reflections.version')}")
+    testCompile("junit:junit:${property('junit.version')}")
+    testCompile gradleTestKit()
+    testCompile("org.spockframework:spock-core:${property('spock.version')}") {
+        exclude module: 'groovy-all'
+    }
+}
+
+test {
+    testLogging.showStandardStreams = true
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
+
+task sourcesJar (type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId "${project.group}"
+            artifactId "${project.name}"
+            version "${project.version}"
+
+            from components.java
+            artifact sourcesJar
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "http://${artifactoryUrl}/artifactory/"
+    publish {
+        repository {
+            repoKey = "${artifactoryRepo}"
+            username = "${artifactoryUser}"
+            password = "${artifactoryPassword}"
+            maven = true
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+artifactoryPublish.dependsOn publish
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
