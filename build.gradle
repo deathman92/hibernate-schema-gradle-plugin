@@ -92,11 +92,11 @@ bintray {
         desc = "${project.description}"
         licenses = ["MIT"]
         labels = ["hibernate", "schema", "ddl", "annotation"]
-        websiteUrl = "https://github.com/deathman92/localized"
-        issueTrackerUrl = "https://github.com/deathman92/localized/issues"
-        vcsUrl = "https://github.com/deathman92/localized.git"
+        websiteUrl = "https://github.com/deathman92/hibernate-schema-gradle-plugin"
+        issueTrackerUrl = "https://github.com/deathman92/hibernate-schema-gradle-plugin/issues"
+        vcsUrl = "https://github.com/deathman92/hibernate-schema-gradle-plugin.git"
 
-        githubRepo = "deathman92/localized"
+        githubRepo = "deathman92/hibernate-schema-gradle-plugin"
         githubReleaseNotesFile = "README.md"
 
         version {
