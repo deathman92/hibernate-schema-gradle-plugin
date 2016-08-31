@@ -1,22 +1,28 @@
 buildscript {
+
+    ext['gradle.props.version'] = '1.4.5'
+    ext['bintray.version'] = '1.7'
+
     repositories {
         mavenLocal()
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0")
-        classpath("net.saliman:gradle-properties-plugin:1.4.5")
+        classpath("net.saliman:gradle-properties-plugin:${property('gradle.props.version')}")
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:${property('bintray.version')}")
     }
 }
 
-ext['project.version'] = '0.3'
+ext['project.version'] = '1.0.0'
+
 ext['hibernate.version'] = '5.2.2.Final'
 ext['reflections.version'] = '0.9.10'
+
 ext['junit.version'] = '4.12'
 ext['spock.version'] = '1.0-groovy-2.4'
 
-group 'io.github.deathman.plugin'
+group 'com.github.deathman92.plugin'
 version "${property('project.version')}"
 description "Gradle plugin for generate DDL scripts from JPA entities"
 
@@ -24,18 +30,14 @@ apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'net.saliman.properties'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
-    isReleaseVersion = !project.version.endsWith("-SNAPSHOT")
-
-    artifactoryRepo = isReleaseVersion ? 'plugins-release-local' : 'plugins-snapshot-local'
-    artifactoryUrl = "${System.env['CI_ARTIFACTORY_URL'] ?: property('artifactory.url')}"
-    artifactoryUser = "${System.env['CI_ARTIFACTORY_USER'] ?: property('artifactory.user')}"
-    artifactoryPassword = "${System.env['CI_ARTIFACTORY_PASSWORD'] ?: property('artifactory.password')}"
+    bintrayUser = "${System.env['CI_BINTRAY_USER'] ?: property('bintray.user')}"
+    bintrayKey = "${System.env['CI_BINTRAY_KEY'] ?: property('bintray.key')}"
 }
 
 repositories {
@@ -80,22 +82,29 @@ publishing {
     }
 }
 
-artifactory {
-    contextUrl = "http://${artifactoryUrl}/artifactory/"
-    publish {
-        repository {
-            repoKey = "${artifactoryRepo}"
-            username = "${artifactoryUser}"
-            password = "${artifactoryPassword}"
-            maven = true
-        }
-        defaults {
-            publications ('mavenJava')
+bintray {
+    user = "${bintrayUser}"
+    key = "${bintrayKey}"
+    publications = ["mavenJava"]
+    pkg {
+        repo = "maven-release"
+        name = "${project.name}"
+        desc = "${project.description}"
+        licenses = ["MIT"]
+        labels = ["hibernate", "schema", "ddl", "annotation"]
+        websiteUrl = "https://github.com/deathman92/localized"
+        issueTrackerUrl = "https://github.com/deathman92/localized/issues"
+        vcsUrl = "https://github.com/deathman92/localized.git"
+
+        githubRepo = "deathman92/localized"
+        githubReleaseNotesFile = "README.md"
+
+        version {
+            name = "${project.version}"
+            released = new Date()
         }
     }
 }
-
-artifactoryPublish.dependsOn publish
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'

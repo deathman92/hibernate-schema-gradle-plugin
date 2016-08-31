@@ -48,4 +48,4 @@ generateSchema {
 }
 ```
 # License
-No license
+[MIT](/LICENSE.md)

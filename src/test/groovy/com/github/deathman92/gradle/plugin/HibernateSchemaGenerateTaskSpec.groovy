@@ -1,4 +1,4 @@
-package io.github.deathman.gradle.plugin
+package com.github.deathman92.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
@@ -45,7 +45,7 @@ sourceSets {
 }
 
 generateSchema {
-    packageNames = ['io.github.deathman.model']
+    packageNames = ['com.github.deathman92.model']
     dialect = 'org.hibernate.dialect.PostgreSQLDialect'
 }
 """

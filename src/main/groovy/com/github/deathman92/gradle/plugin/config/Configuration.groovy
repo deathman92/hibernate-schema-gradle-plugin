@@ -1,4 +1,4 @@
-package io.github.deathman.gradle.plugin.config
+package com.github.deathman92.gradle.plugin.config
 
 /**
  * @author Victor Zhivotikov

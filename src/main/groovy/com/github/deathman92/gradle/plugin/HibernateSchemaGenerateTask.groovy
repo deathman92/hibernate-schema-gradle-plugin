@@ -1,4 +1,4 @@
-package io.github.deathman.gradle.plugin
+package com.github.deathman92.gradle.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction

@@ -1,4 +1,4 @@
-package io.github.deathman.model;
+package com.github.deathman92.model;
 
 import javax.persistence.*;
 

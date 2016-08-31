@@ -1,7 +1,7 @@
-package io.github.deathman.gradle.plugin
+package com.github.deathman92.gradle.plugin
 
 
-import io.github.deathman.gradle.plugin.config.Configuration
+import com.github.deathman92.gradle.plugin.config.Configuration
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
