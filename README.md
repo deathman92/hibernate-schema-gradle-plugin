@@ -15,12 +15,12 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath("io.github.deathman.plugin:hibernate-schema-gradle-plugin:1.0.0")
+    classpath("com.github.deathman92.plugin:hibernate-schema-gradle-plugin:1.0.0")
   }
 }
 
 apply plugin: 'java'
-apply plagin: 'hibernate-schema-generate' // or 'io.github.deathman.plugin.hibernate-schema-generate'
+apply plagin: 'hibernate-schema-generate' // or 'com.github.deathman92.plugin.hibernate-schema-generate'
 
 generateSchema {
   // properties (see Setting later)
