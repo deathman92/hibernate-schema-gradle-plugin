@@ -24,7 +24,7 @@ class HibernateSchemaGenerateTaskSpec extends Specification {
         given:
         buildFile << """
 plugins {
-    id 'io.github.deathman.plugin.hibernate-schema-generate'
+    id 'com.github.deathman92.plugin.hibernate-schema-generate'
 }
 
 repositories {
