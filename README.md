@@ -20,7 +20,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plagin: 'hibernate-schema-generate' // or 'com.github.deathman92.plugin.hibernate-schema-generate'
+apply plugin: 'hibernate-schema-generate' // or 'com.github.deathman92.plugin.hibernate-schema-generate'
 
 generateSchema {
   // properties (see Setting later)
